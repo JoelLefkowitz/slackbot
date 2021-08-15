@@ -1,0 +1,6 @@
+project: slackbot
+version: 1.1.1
+author: Joel Lefkowitz
+verbose_name: Slackbot
+html_title: Slackbot
+github_url: https://github.com/JoelLefkowitz/slackbot
