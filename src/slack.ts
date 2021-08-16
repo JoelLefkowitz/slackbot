@@ -14,11 +14,11 @@ export class SlackClient {
     this.boundaryKey = boundaryKey;
   }
 
-  get formBoundary() {
+  get formBoundary(): string {
     return `------WebKitFormBoundary${this.boundaryKey}`;
   }
 
-  get headers() {
+  get headers(): Record<string, string> {
     return {
       accept: '*/*',
       cookie: this.cookie,
@@ -48,9 +48,9 @@ export class SlackClient {
       '\r\n',
     ].join('');
 
-  encodeForm = (data: { key: string; value: string }[]): string =>
-    data
-      .map(({ key, value }) => this.encodeField(key, value))
+  encodeForm = (data: Record<string, string>): string =>
+    Object.entries(data)
+      .map(([key, value]) => this.encodeField(key, value))
       .join('')
       .concat(this.formBoundary, '--', '\r\n');
 
@@ -67,19 +67,19 @@ export class SlackClient {
       },
     ]);
 
-    return this.encodeForm([
-      { key: 'channel', value: channel },
-      { key: 'ts', value: '1629056093.xxxxx2' },
-      { key: 'type', value: 'message' },
-      { key: 'xArgs', value: '{}' },
-      { key: 'blocks', value: message },
-      { key: 'include_channel_perm_error', value: 'true' },
-      { key: 'client_msg_id', value: uuidv4() },
-      { key: 'token', value: this.token },
-      { key: '_x_reason', value: 'webapp_message_send' },
-      { key: '_x_mode', value: 'online' },
-      { key: '_x_sonic', value: 'true' },
-    ]);
+    return this.encodeForm({
+      channel: channel,
+      ts: '1629056093.xxxxx2',
+      type: 'message',
+      xArgs: '{}',
+      blocks: message,
+      include_channel_perm_error: 'true',
+      client_msg_id: uuidv4(),
+      token: this.token,
+      _x_reason: 'webapp_message_send',
+      _x_mode: 'online',
+      _x_sonic: 'true',
+    });
   };
 
   async sendMessage(
@@ -94,5 +94,8 @@ export class SlackClient {
       headers: this.headers,
       body: this.makeMessage(channel, text),
     });
+
+    const body = await res.text();
+    console.log(name, body);
   }
 }

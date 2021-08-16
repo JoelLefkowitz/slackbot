@@ -13,7 +13,7 @@ const boundaryKey = '';
 
 const channels = [];
 
-export async function main() {
+export async function main(): Promise<void> {
   const client = new SlackClient(token, url, cookie, boundaryKey);
 
   const cron = new CronJob('* * * * *', async () => {
