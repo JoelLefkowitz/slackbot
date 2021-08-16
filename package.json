@@ -11,7 +11,8 @@
     "cron": "^1.8.2",
     "jsdom": "^17.0.0",
     "node-fetch": "^2.6.1",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "yargs": "^17.1.1"
   },
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
@@ -19,6 +20,7 @@
     "@types/mocha": "^8.2.3",
     "@types/node": "^16.4.10",
     "@types/sinon": "^10.0.2",
+    "@types/yargs": "^17.0.2",
     "@typescript-eslint/eslint-plugin": "^4.28.3",
     "@typescript-eslint/parser": "^4.28.3",
     "chai": "^4.3.4",

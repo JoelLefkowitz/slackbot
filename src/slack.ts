@@ -26,7 +26,7 @@ export class SlackClient {
       'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',
       'cache-control': 'no-cache',
       'content-type': 'multipart/form-data; boundary='.concat(
-        this.formBoundary
+        this.formBoundary.replace('------', '----')
       ),
       'sec-ch-ua-mobile': '?0',
       'sec-ch-ua':
@@ -41,7 +41,7 @@ export class SlackClient {
     [
       this.formBoundary,
       '\r\n',
-      `Content-Disposition: form-data; name=${key}`,
+      `Content-Disposition: form-data; name="${key}"`,
       '\r\n',
       '\r\n',
       value,
@@ -96,6 +96,13 @@ export class SlackClient {
     });
 
     const body = await res.text();
-    console.log(name, body);
+    
+    if (body["ok"]) {      
+      console.log(`Sent ${text} to ${name}.`)
+    }
+    
+    else{      
+      console.error(body);
+    }
   }
 }
