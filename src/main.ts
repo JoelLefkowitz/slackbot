@@ -35,9 +35,20 @@ export async function main(credentials: Credentials): Promise<void> {
   cron.start();
 }
 
-const argv = yargs(hideBin(process.argv))
-  .usage('Usage: $0 --path [str]')
-  .default('path', 'credentials.json').argv;
 
-const credentials = JSON.parse(fs.readFileSync(argv['path']).toString());
-main(credentials);
+if (require.main === module) {
+  const argv = yargs.command(
+    '$0 [path]',
+    'Spawn a slackbot client.',
+    () =>
+      yargs
+        .option('path', {
+          describe: 'Credentials path',
+          type: 'string',
+          default: 'credentials.json',
+        })
+  ).argv;
+
+  const credentials = JSON.parse(fs.readFileSync(argv['path']).toString());
+  main(credentials);
+}
